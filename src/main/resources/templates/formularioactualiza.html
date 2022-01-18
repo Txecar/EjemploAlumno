@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<h2> Formulario de actualizacion</h2>
+	<form th:action="@{/update}" method="post" th:object="${alumno}">
+		<p><input type ="hidden" placeholder="ID" th:field="*{id}"></input></p>
+		<p><input type ="text" placeholder="Nombre" th:field="*{nombre}"></input></p>
+		<p><input type ="text" placeholder="Apellidos" th:field="*{apellidos}"></input></p>
+		<p><input type ="text" placeholder="Telefono" th:field="*{telefono}"></input></p>
+		<p><input type ="text" placeholder="Correo" th:field="*{correo}"></input></p>
+		
+		<div>
+			<select id="sexo" th:field="*{sexo}">
+			<option value="">Selecciona Sexo</option>
+			<option th:each="sexo : ${sexos}" th:text="${sexo.nombre}" th:value="${sexo.id}">Selecciona el sexo</option>
+			</select>
+		</div>
+		
+		<div>
+			<select id="curso" th:field="*{curso}">
+			<option value="">Selecciona Curso</option>
+			<option th:each="curso : ${cursos}" th:text="${curso.descripcion}" th:value="${curso.id}">Selecciona el curso</option>
+			</select>
+		</div>
+			
+		<p><input type="submit" value="Enviar"></input></p>
+	</form>
+	
+
+</body>
+</html>

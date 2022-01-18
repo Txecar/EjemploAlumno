@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Examen Curso</title>
+</head>
+<body>
+	<h3>Alumnos</h3>
+	
+	<table border="1">
+		<thead>
+			<tr>
+				<th>Nombre</th>
+				<th>Apellidos</th>
+				<th>Sexo</th>
+				<th>Telefono</th>
+				<th>Correo</th>
+				<th>Curso</th>		
+				<th>Horario</th>
+				<th>Borrar</th>
+				<th>Actualizar</th>		
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="alumno : ${alumnos}">
+				<td th:text="${alumno.nombre}"></td>
+				<td th:text="${alumno.apellidos}"></td>
+				<td th:text="${alumno.sexo.nombre}"></td>
+				<td th:text="${alumno.telefono}"></td>
+				<td th:text="${alumno.correo}"></td>
+				<td th:text="${alumno.curso.descripcion}"></td>
+				<td th:text="${alumno.curso.horario.nombre}"></td>
+				<td><a th:href = @{/borrar/{id}(id=${alumno.id})}><button type="button" th:value="${alumno.id}" th:text="${alumno.id}"></button></a></td>
+				<td><a th:href = @{/botonactualiza/{id}(id=${alumno.id})}><button type="button" th:text="Actualizar"></button></a></td>				
+		
+			</tr>
+		</tbody>
+	</table>
+
+	
+		<h3>Alumnos Mañana</h3>
+	
+	<table border="1">
+		<thead>
+			<tr>
+				<th>Nombre</th>
+				<th>Apellidos</th>
+				<th>Sexo</th>
+				<th>Telefono</th>
+				<th>Correo</th>
+				<th>Curso</th>		
+				<th>Horario</th>		
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="alumno : ${alumnosManana}">
+				<td th:text="${alumno.nombre}"></td>
+				<td th:text="${alumno.apellidos}"></td>
+				<td th:text="${alumno.sexo.nombre}"></td>
+				<td th:text="${alumno.telefono}"></td>
+				<td th:text="${alumno.correo}"></td>
+				<td th:text="${alumno.curso.descripcion}"></td>
+				<td th:text="${alumno.curso.horario.nombre}"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	
+	
+	<h3>Alumnos Curso</h3>
+	
+	<table>
+		<thead></thead>
+		<tbody>
+			<tr th:each="alumno : ${alumnosCurso}">
+			<td th:text="${alumno.key.descripcion}"></td>
+			<td>
+			<table border="1">
+			
+				<thead>
+				<tr>
+					<th>Nombre</th>
+					<th>Apellidos</th>
+					<th>Curso</th>				
+				</tr>
+				</thead>
+				<tr th:each="alu : ${alumno.value}">
+					<td th:text="${alu.nombre}"></td>
+					<td th:text="${alu.apellidos}"></td>
+					<td th:text="${alu.curso.descripcion}"></td>
+				</tr>
+			</table>
+			</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<h2> Formulario de alta</h2>
+	<form th:action="@{/postrequest}" method="post" th:object="${alumno}">
+		<p><input type ="text" placeholder="Nombre" th:field="*{nombre}"></input></p>
+		<p><input type ="text" placeholder="Apellidos" th:field="*{apellidos}"></input></p>
+		<p><input type ="text" placeholder="Telefono" th:field="*{telefono}"></input></p>
+		<p><input type ="text" placeholder="Correo" th:field="*{correo}"></input></p>
+		
+		<div>
+			<select id="sexo" th:field="*{sexo}">
+			<option value="">Selecciona Sexo</option>
+			<option th:each="sexo : ${sexos}" th:text="${sexo.nombre}" th:value="${sexo.id}">Selecciona el sexo</option>
+			</select>
+		</div>
+		
+		<div>
+			<select id="curso" th:field="*{curso}">
+			<option value="">Selecciona Curso</option>
+			<option th:each="curso : ${cursos}" th:text="${curso.descripcion}" th:value="${curso.id}">Selecciona el curso</option>
+			</select>
+		</div>
+
+		
+<!--		<div>
+			<select id="horario" name="horario">
+			<option value="">Selecciona Horario</option>
+			<option th:each="horario : ${horarios}" th:text="${horario.nombre}" th:value="${horario.id}">Selecciona el Horario</option>
+			</select>
+		</div>
+-->		
+		
+		<p><input type="submit" value="Enviar"></input></p>
+	</form>
+	
+</body>
+</html>
