@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Detalles del Alumno</h1>
+	
+	<img th:alt="${alumno.foto}" th:src="@{'/recursos/'} + ${alumno.foto}">
+	
+	<ul>
+		<li th:text="'Nombre: ' + ${alumno.nombre}"></li>
+		<li th:text="'Apellidos: ' + ${alumno.apellidos}"></li>
+	</ul>
+
+</body>
+</html>

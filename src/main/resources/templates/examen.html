@@ -18,7 +18,8 @@
 				<th>Curso</th>		
 				<th>Horario</th>
 				<th>Borrar</th>
-				<th>Actualizar</th>		
+				<th>Actualizar</th>	
+				<th></th>	
 			</tr>
 		</thead>
 		<tbody>
@@ -32,7 +33,7 @@
 				<td th:text="${alumno.curso.horario.nombre}"></td>
 				<td><a th:href = @{/borrar/{id}(id=${alumno.id})}><button type="button" th:value="${alumno.id}" th:text="${alumno.id}"></button></a></td>
 				<td><a th:href = @{/botonactualiza/{id}(id=${alumno.id})}><button type="button" th:text="Actualizar"></button></a></td>				
-		
+				<td><a th:href="@{/detalle/} + ${alumno.id}">Detalles</a></td>
 			</tr>
 		</tbody>
 	</table>
@@ -98,21 +99,17 @@
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
+		
 	
 	
 	<h2> Formulario de alta</h2>
-	<form th:action="@{/postrequest}" method="post" th:object="${alumno}">
+	<form th:action="@{/postrequest}" method="post" th:object="${alumno}" enctype="multipart/form-data">
+		<input type="hidden" th:field="*{id}">
 		<p><input type ="text" placeholder="Nombre" th:field="*{nombre}"></input></p>
 		<p><input type ="text" placeholder="Apellidos" th:field="*{apellidos}"></input></p>
 		<p><input type ="text" placeholder="Telefono" th:field="*{telefono}"></input></p>
 		<p><input type ="text" placeholder="Correo" th:field="*{correo}"></input></p>
+		<p><input type="file" name="file"></p>
 		
 		<div>
 			<select id="sexo" th:field="*{sexo}">

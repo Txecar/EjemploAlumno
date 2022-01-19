@@ -1,5 +1,9 @@
 package com.capgemini.controllers;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.capgemini.entities.Alumno;
@@ -71,14 +76,14 @@ private static final Log LOG = LogFactory.getLog(MainController.class);
 		return "examen";
 	}
 	
-	@PostMapping("/postrequest")
-	public String getFormulario(@ModelAttribute (name = "alumno") Alumno alumno, @RequestParam (name = "horario") String horario) {
-		//System.out.println("horario" + horario);
-		//alumno.getCurso().getHorario().setId(Long.parseLong(horario));
-		//System.out.println(alumno);
-		serviceAlumno.guardarAlumno(alumno);
-		return "redirect:/examen";
-	}
+//	@PostMapping("/postrequest")
+//	public String getFormulario(@ModelAttribute (name = "alumno") Alumno alumno, @RequestParam (name = "horario") String horario) {
+//		//System.out.println("horario" + horario);
+//		//alumno.getCurso().getHorario().setId(Long.parseLong(horario));
+//		//System.out.println(alumno);
+//		serviceAlumno.guardarAlumno(alumno);
+//		return "redirect:/examen";
+//	}
 	
 	@GetMapping("/borrar/{id}")
 	public String borrar (@PathVariable (name = "id") String id) {
@@ -103,9 +108,63 @@ private static final Log LOG = LogFactory.getLog(MainController.class);
 	
 	@PostMapping("/update")
 	public String getFormulario(@ModelAttribute (name = "alumno") Alumno alumno) {
+		
+		
 		serviceAlumno.guardarAlumno(alumno);
 		
 		return "redirect:/examen";
+	}
+	
+	
+	@PostMapping("/postrequest")
+	public String getFormulario(@ModelAttribute(name = "alumno") Alumno alumno, @RequestParam(name = "file") MultipartFile imagen) {
+		
+		if(! imagen.isEmpty()) {
+			
+			// Obtenemos la ruta relativa
+			// Path imagesFolder = Paths.get("src//main//resources//static/images");
+			
+			// Ruta absoluta
+			// String rutaAbsoluta = imagesFolder.toFile().getAbsolutePath();	
+			
+			String rutaAbsoluta = "//home//curso//Persona//recursos";
+			
+			try {
+				byte[] bytesImages = imagen.getBytes();
+				
+				// Ruta completa, que incluye el nombre original de la imagen
+				Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+				
+				LOG.info("ruta completa a la imagen: " + rutaCompleta);
+				
+				Files.write(rutaCompleta, bytesImages);
+				
+				//persona.setFoto(imagen.getOriginalFilename());
+				
+				alumno.setFoto(imagen.getOriginalFilename());
+				
+				serviceAlumno.guardarAlumno(alumno);
+				
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return "redirect:/examen";
+	}
+	
+	@GetMapping("/detalle/{id}")
+	public String detalles(@PathVariable(name ="id") String id, Model model ) {
+		
+		Alumno alumno = null;
+		
+		alumno = serviceAlumno.getAlumno(id);
+		
+		model.addAttribute("alumno", alumno);
+		
+		return "detalles";
 	}
 
 }

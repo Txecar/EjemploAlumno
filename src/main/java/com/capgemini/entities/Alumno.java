@@ -30,6 +30,7 @@ public class Alumno implements Serializable{
 	private String correo;
 	@ManyToOne
 	private Curso curso;
+	private String foto;
 	
 	public Alumno() {
 		super();
@@ -46,7 +47,23 @@ public class Alumno implements Serializable{
 		this.correo = correo;
 		this.curso = curso;
 	}
+	
+	
 
+	public Alumno(Long id, String nombre, String apellidos, Sexo sexo, String telefono, String correo, Curso curso,
+			String foto) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.sexo = sexo;
+		this.telefono = telefono;
+		this.correo = correo;
+		this.curso = curso;
+		this.foto = foto;
+	}
+
+	
 	public Long getId() {
 		return id;
 	}
@@ -107,11 +124,21 @@ public class Alumno implements Serializable{
 		return serialVersionUID;
 	}
 
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
 	@Override
 	public String toString() {
 		return "Alumno [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", sexo=" + sexo + ", telefono="
-				+ telefono + ", correo=" + correo + ", curso=" + curso + "]";
+				+ telefono + ", correo=" + correo + ", curso=" + curso + ", foto=" + foto + "]";
 	}
+
+	
 	
 	
 
