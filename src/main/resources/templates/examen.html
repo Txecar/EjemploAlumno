@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head th:replace="baseTemplate :: cabecera">
 <meta charset="UTF-8">
 <title>Examen Curso</title>
 </head>
 <body>
 	<h3>Alumnos</h3>
 	
-	<table border="1">
+	<table  class="table table-striped">
 		<thead>
 			<tr>
 				<th>Nombre</th>
@@ -41,7 +41,7 @@
 	
 		<h3>Alumnos Mañana</h3>
 	
-	<table border="1">
+	<table class="table table-dark table-striped">
 		<thead>
 			<tr>
 				<th>Nombre</th>
@@ -70,7 +70,7 @@
 	
 	<h3>Alumnos Curso</h3>
 	
-	<table>
+	<table class="table table-success table-striped">
 		<thead></thead>
 		<tbody>
 			<tr th:each="alumno : ${alumnosCurso}">
@@ -95,13 +95,51 @@
 			</tr>
 		</tbody>
 	</table>
-	
-	
-	
-	
-		
-	
-	
+
+
+
+
+	<div class="container">
+		<div class="row">
+			<div class="colum">
+				<form th:action="@{/postrequest}" method="post"
+					th:object="${alumno}" enctype="multipart/form-data">
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Nombre</label>
+						<input type="text" class="form-control" th:field="*{nombre}">
+						<div id="emailHelp" class="form-text">Obligatorio</div>
+					</div>
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Apellidos</label>
+						<input type="text" class="form-control" th:field="*{apellidos}">
+						<div id="emailHelp" class="form-text">Obligatorio</div>
+					</div>
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Telefono</label>
+						<input type="text" class="form-control" th:field="*{telefono}">
+						<div id="emailHelp" class="form-text">Obligatorio</div>
+					</div>
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Correo</label>
+						<input type="text" class="form-control" th:field="*{correo}">
+						<div id="emailHelp" class="form-text">Obligatorio</div>
+					</div>
+
+					<div class="form-check">
+						<li th:each="sexo : ${sexos}"><input class="form-check-input"
+							id="sexo" type="radio" th:field="*{sexo}" th:value="${sexo.id}">
+							<label th:for="${sexo.id}" th:text="${sexo.nombre}"></label></li>
+					</div>
+
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+
+
 	<h2> Formulario de alta</h2>
 	<form th:action="@{/postrequest}" method="post" th:object="${alumno}" enctype="multipart/form-data">
 		<input type="hidden" th:field="*{id}">
@@ -111,13 +149,16 @@
 		<p><input type ="text" placeholder="Correo" th:field="*{correo}"></input></p>
 		<p><input type="file" name="file"></p>
 		
-		<div>
-			<select id="sexo" th:field="*{sexo}">
-			<option value="">Selecciona Sexo</option>
-			<option th:each="sexo : ${sexos}" th:text="${sexo.nombre}" th:value="${sexo.id}">Selecciona el sexo</option>
-			</select>
+
+		<div class="form-check">
+			<li th:each="sexo : ${sexos}">
+				<input class="form-check-input" id="sexo" type="radio" th:field="*{sexo}" th:value="${sexo.id}"> 
+				<label th:for="${sexo.id}" th:text="${sexo.nombre}"></label>
+			</li>
 		</div>
 		
+
+
 		<div>
 			<select id="curso" th:field="*{curso}">
 			<option value="">Selecciona Curso</option>
@@ -136,6 +177,9 @@
 		
 		<p><input type="submit" value="Enviar"></input></p>
 	</form>
+	
+	
+	<script th:replace="baseTemplate :: javascriptSupport"></script>
 	
 </body>
 </html>

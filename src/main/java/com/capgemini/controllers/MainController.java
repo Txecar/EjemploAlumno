@@ -57,6 +57,11 @@ private static final Log LOG = LogFactory.getLog(MainController.class);
 //		return mav;
 //	}
 
+	@GetMapping()
+	public String home() {
+		return "index";
+	}
+	
 	@GetMapping("/examen")
 	public String listar (Model model) {
 		
