@@ -112,11 +112,40 @@ private static final Log LOG = LogFactory.getLog(MainController.class);
 	}
 	
 	@PostMapping("/update")
-	public String getFormulario(@ModelAttribute (name = "alumno") Alumno alumno) {
+	public String update(@ModelAttribute (name = "alumno") Alumno alumno, @RequestParam(name = "file") MultipartFile imagen) {
 		
 		
-		serviceAlumno.guardarAlumno(alumno);
-		
+		if (!imagen.isEmpty()) {
+
+			// Obtenemos la ruta relativa
+			// Path imagesFolder = Paths.get("src//main//resources//static/images");
+
+			// Ruta absoluta
+			// String rutaAbsoluta = imagesFolder.toFile().getAbsolutePath();
+
+			String rutaAbsoluta = "//home//curso//Persona//recursos";
+
+			try {
+				byte[] bytesImages = imagen.getBytes();
+
+				// Ruta completa, que incluye el nombre original de la imagen
+				Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+
+				LOG.info("ruta completa a la imagen: " + rutaCompleta);
+
+				Files.write(rutaCompleta, bytesImages);
+
+				// persona.setFoto(imagen.getOriginalFilename());
+
+				alumno.setFoto(imagen.getOriginalFilename());
+
+				serviceAlumno.guardarAlumno(alumno);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 		return "redirect:/examen";
 	}
 	

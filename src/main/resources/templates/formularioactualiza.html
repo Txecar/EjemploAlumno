@@ -1,36 +1,64 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head th:replace="baseTemplate :: cabecera">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 
-<h2> Formulario de actualizacion</h2>
-	<form th:action="@{/update}" method="post" th:object="${alumno}">
-		<p><input type ="hidden" placeholder="ID" th:field="*{id}"></input></p>
-		<p><input type ="text" placeholder="Nombre" th:field="*{nombre}"></input></p>
-		<p><input type ="text" placeholder="Apellidos" th:field="*{apellidos}"></input></p>
-		<p><input type ="text" placeholder="Telefono" th:field="*{telefono}"></input></p>
-		<p><input type ="text" placeholder="Correo" th:field="*{correo}"></input></p>
-		
-		<div>
-			<select id="sexo" th:field="*{sexo}">
-			<option value="">Selecciona Sexo</option>
-			<option th:each="sexo : ${sexos}" th:text="${sexo.nombre}" th:value="${sexo.id}">Selecciona el sexo</option>
-			</select>
-		</div>
-		
-		<div>
-			<select id="curso" th:field="*{curso}">
-			<option value="">Selecciona Curso</option>
-			<option th:each="curso : ${cursos}" th:text="${curso.descripcion}" th:value="${curso.id}">Selecciona el curso</option>
-			</select>
-		</div>
-			
-		<p><input type="submit" value="Enviar"></input></p>
-	</form>
-	
+	<h2>Formulario de actualizacion</h2>
+	<div class="container">
+		<div class="row">
+			<div class="colum">
+				<form th:action="@{/update}" method="post" th:object="${alumno}"
+					enctype="multipart/form-data">
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Nombre</label>
+						<input type="text" class="form-control" th:field="*{nombre}">
+						<div id="emailHelp" class="form-text">Obligatorio</div>
+					</div>
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Apellidos</label>
+						<input type="text" class="form-control" th:field="*{apellidos}">
+						<div id="emailHelp" class="form-text">Obligatorio</div>
+					</div>
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Telefono</label>
+						<input type="text" class="form-control" th:field="*{telefono}">
+						<div id="emailHelp" class="form-text">Obligatorio</div>
+					</div>
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Correo</label>
+						<input type="text" class="form-control" th:field="*{correo}">
+						<div id="emailHelp" class="form-text">Obligatorio</div>
+					</div>
 
+					<div class="mb-3">
+						<label for="formFile" class="form-label"></label> <input
+							class="form-control" type="file" id="file" name="file">
+					</div>
+
+					<div class="form-check">
+						<li th:each="sexo : ${sexos}"><input class="form-check-input"
+							id="sexo" type="radio" th:field="*{sexo}" th:value="${sexo.id}">
+							<label th:for="${sexo.id}" th:text="${sexo.nombre}"></label></li>
+					</div>
+
+					<div>
+						<select class="form-select" aria-label="Default select example"
+							id="curso" th:field="*{curso}">
+							<option value="">Selecciona Curso</option>
+							<option th:each="curso : ${cursos}"
+								th:text="${curso.descripcion}" th:value="${curso.id}"></option>
+						</select>
+					</div>
+
+					<button type="submit" class="btn btn-primary">Enviar</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script th:replace="baseTemplate :: javascriptSupport"></script>
 </body>
 </html>

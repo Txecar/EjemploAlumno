@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head th:replace="baseTemplate :: cabecera">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>Detalles del Alumno</h1>
-	
-	<img th:alt="${alumno.foto}" th:src="@{'/recursos/'} + ${alumno.foto}">
-	
-	<ul>
-		<li th:text="'Nombre: ' + ${alumno.nombre}"></li>
-		<li th:text="'Apellidos: ' + ${alumno.apellidos}"></li>
-	</ul>
+
+<div class="card" style="width: 18rem;">
+  <img th:alt="${alumno.foto}" th:src="@{'/recursos/'} + ${alumno.foto}">
+  <div class="card-body">
+    <h5 class="card-title" th:text="'Nombre: ' + ${alumno.nombre}"></h5>
+    <p class="card-text" li th:text="'Apellidos: ' + ${alumno.apellidos}"></p>
+    <a th:href = @{/examen} class="btn btn-primary">Volver</a>
+  </div>
+</div>
+
+	<script th:replace="baseTemplate :: javascriptSupport"></script>
 
 </body>
 </html>
